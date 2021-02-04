@@ -142,6 +142,203 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Docker" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/03/Docker/">Install Docker &amp; Docker Commands</a>
+    </h1>
+  
+
+        
+        <a href="/2021/02/03/Docker/" class="archive-article-date">
+  	<time datetime="2021-02-03T20:08:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<h1 id="Install-Docker-on-the-Ubuntu-Desktop-20-04"><a href="#Install-Docker-on-the-Ubuntu-Desktop-20-04" class="headerlink" title="Install Docker on the Ubuntu Desktop 20.04"></a>Install Docker on the Ubuntu Desktop 20.04</h1><p>Here is the <a target="_blank" rel="noopener" href="https://docs.docker.com/engine/install/ubuntu/">document</a> from docker.</p>
+<p>First I remove the old version:</p>
+<pre><code>$ sudo apt-get remove docker docker-engine docker.io containerd runc
+</code></pre>
+<p>Then  I Installed using the convenience script. Here it is: </p>
+<pre><code>$ curl -fsSL https://get.docker.com -o get-docker.sh
+$ sudo sh get-docker.sh
+</code></pre>
+<p>Remeber to add your accound to the docker group after the installation.</p>
+<pre><code>$ sudo usermod -aG docker &lt;your-user&gt;
+</code></pre>
+<p>And you need to check if the docker command is belong to docker group. Usually it is belong to root group. </p>
+<pre><code>$ ls -al `which docker`
+</code></pre>
+<p>If not, you need to change the group manually. </p>
+<pre><code>$ sudo chgrp docker `which docker` 
+</code></pre>
+<p>To test if the installation is working correctly: </p>
+<pre><code>$ docker run hello-world
+</code></pre>
+<p>If you encounter the permission denied issue, try: </p>
+<pre><code>$ sudo systemctl restart docker
+</code></pre>
+<p>and logout. This worked for me. </p>
+<hr>
+<h1 id="Basic-Docker-Commands"><a href="#Basic-Docker-Commands" class="headerlink" title="Basic Docker Commands"></a>Basic Docker Commands</h1><p>Start a container</p>
+<pre><code>$ docker run nginx
+</code></pre>
+<p>List containers</p>
+<pre><code>~$ docker ps -a
+CONTAINER ID   IMAGE         COMMAND                  CREATED              STATUS                      PORTS     NAMES
+8db74ee17b0d   nginx         &quot;/docker-entrypoint.…&quot;   About a minute ago   Up About a minute           80/tcp    thirsty_lehmann
+fefbc75c1d6e   hello-world   &quot;/hello&quot;                 8 minutes ago        Exited (0) 8 minutes ago              great_feynman
+</code></pre>
+<p>Stop a container</p>
+<pre><code>$ docker stop thirsty_lehmann 
+</code></pre>
+<p>Remove a container </p>
+<pre><code>$ docker rm thirsty_lehmann
+</code></pre>
+<p>List images</p>
+<pre><code>$ docker images
+</code></pre>
+<p>Remove images</p>
+<pre><code>$ docker rmi nginx
+</code></pre>
+<p>Download un image</p>
+<pre><code>$ docker pull nginx
+</code></pre>
+<p>Run a command in the container of ubuntu </p>
+<pre><code>$ docker run ubuntu sleep 100
+$ docker ps 
+CONTAINER ID   IMAGE     COMMAND       CREATED         STATUS         PORTS     NAMES
+796ba8ba8091   ubuntu    &quot;sleep 100&quot;   9 seconds ago   Up 7 seconds             beautiful_euclid
+$ docker exec beautiful_euclid cat /etc/hosts
+127.0.0.1    localhost
+::1    localhost ip6-localhost ip6-loopback
+</code></pre>
+<p>Detach and attach</p>
+<pre><code>$ docker run -d nginx
+</code></pre>
+<p><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/docker/">Docker Command line Document</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.docker.com/docker-hub/official_images/">Docker Official Images on Docker Hub Document</a></p>
+<p>Docker Hub: <a target="_blank" rel="noopener" href="https://hub.docker.com/">https://hub.docker.com/</a></p>
+<hr>
+<h1 id="Run"><a href="#Run" class="headerlink" title="Run"></a>Run</h1><ul>
+<li><p>tag:</p>
+<pre><code>  $ docker run redis:4.0
+  $ docker run kodekloud/simple-prompt-docker 
+  Welcome! Please enter your name: 
+
+  Hello and Welcome !
+</code></pre>
+</li>
+<li><p>Stdin</p>
+<pre><code>  $ docker run -i kodekloud/simple-prompt-docker 
+  Welcome! Please enter your name: hallo-ketty
+
+  Hello and Welcome hallo-ketty!
+</code></pre>
+</li>
+<li><p>Terminal Mode</p>
+<pre><code>  $ docker run -it kodekloud/simple-prompt-docker
+</code></pre>
+</li>
+<li><p>Port mapping </p>
+<pre><code>  $ docker run -p new_port:container_port kodekloud/simple-webapp
+</code></pre>
+</li>
+<li><p>Volume mapping </p>
+<pre><code>  $ docker run -v new_file:container_file mysql
+  $ docker run -v /opt/datadir:/var/lib/mysql mysql
+</code></pre>
+</li>
+<li><p>Inspect Container</p>
+<pre><code>  $ docker inspect container_name
+  $ docker inspect -f &#39;&#123;&#123;range .NetworkSettings.Networks&#125;&#125;&#123;&#123;.IPAddress&#125;&#125;&#123;&#123;end&#125;&#125;&#39; container_name
+</code></pre>
+</li>
+<li><p>logs</p>
+<pre><code>  $ docker logs container_name
+</code></pre>
+</li>
+<li><p>ENV variables</p>
+<pre><code>  $ docker run -e ENV_VAR=env_var_value image_name
+</code></pre>
+</li>
+</ul>
+<hr>
+<h1 id="Containerizing"><a href="#Containerizing" class="headerlink" title="Containerizing"></a>Containerizing</h1><ol>
+<li>create a dockerfile</li>
+<li>docker build Dockerfile -t account_name/image_name</li>
+<li>docker push account_name/image_name</li>
+</ol>
+<ul>
+<li>dockerfile: </li>
+</ul>
+<p>start from a base OS or another image:</p>
+<pre><code>FROM Ubuntu    
+</code></pre>
+<p>install all dependencies: </p>
+<pre><code>RUN apt-get update
+RUN apt-get install python
+
+RUN pip install flask
+RUN pip install flask-mysql
+</code></pre>
+<p>Copy source code:</p>
+<pre><code>COPY . /opt/source-code
+</code></pre>
+<p>Specify Entrypoint:</p>
+<pre><code>ENTRYPOINT FLASK_APP=/opt/source-code/app.py flask run
+</code></pre>
+<hr>
+<h1 id="CMD-amp-ENTRYPOINT"><a href="#CMD-amp-ENTRYPOINT" class="headerlink" title="CMD &amp; ENTRYPOINT"></a>CMD &amp; ENTRYPOINT</h1>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/02/03/Docker/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Deploy-Hexo-To-Github" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
