@@ -468,6 +468,22 @@ docker run --memory=100m ubuntu
 <p><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/">Engine</a></p>
 <h1 id="Container-Orchestration"><a href="#Container-Orchestration" class="headerlink" title="Container Orchestration"></a>Container Orchestration</h1><pre><code>docker service create --duplicas=100 nodejs
 </code></pre>
+<p>Solutions: docker swarm, kubernetes, MESOS</p>
+<h1 id="Docker-Swarm"><a href="#Docker-Swarm" class="headerlink" title="Docker Swarm"></a>Docker Swarm</h1><p>Responsible for load balancing on the docker hosts<br>On Swarm Manager: </p>
+<pre><code>$ docker swarm init
+</code></pre>
+<p>On swarm workers: </p>
+<pre><code>$ docker swarm join --token &lt;token&gt;
+</code></pre>
+<p>Then on the manager again: </p>
+<pre><code>$ docker service create --replicas=3 -p 8080:80 my-web-server
+</code></pre>
+<h1 id="kubernetes"><a href="#kubernetes" class="headerlink" title="kubernetes"></a>kubernetes</h1><pre><code>$ kubectl run --replicas=1000  my-web-server
+$ kubectl scale --replicas=2000  my-web-server
+$ kubectl rolling-update my-web-server --image=web-server:2
+$ kubectl rolling-update my-web-server --rollback
+</code></pre>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=fqMOX6JJhGo">ref VIDEO</a></p>
 
       
 
