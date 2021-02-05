@@ -142,6 +142,238 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Docker-Spring-Boot-build-with-Dockerfile" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/05/Docker-Spring-Boot-build-with-Dockerfile/">Docker Spring Boot build with Dockerfile</a>
+    </h1>
+  
+
+        
+        <a href="/2021/02/05/Docker-Spring-Boot-build-with-Dockerfile/" class="archive-article-date">
+  	<time datetime="2021-02-05T15:06:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p>Create a spring boot, import springframework.web package. </p>
+</li>
+<li><p>Create a controller: </p>
+<p> package com.example.dockerspringboot.resource;</p>
+<p> import org.springframework.web.bind.annotation.GetMapping;<br> import org.springframework.web.bind.annotation.RequestMapping;<br> import org.springframework.web.bind.annotation.RestController;</p>
+<p> @RequestMapping(“/rest/docker/hello”)<br> @RestController<br> public class HelloRes {</p>
+<pre><code> @GetMapping public  String hello () &#123;
+     return &quot;hello J&quot;;
+ &#125;
+</code></pre>
+<p> }</p>
+</li>
+<li><p>porm.xml change finalname to docker-sb.jar</p>
+</li>
+<li><p>define server.port=8085 in application.properties </p>
+</li>
+<li><p>create Dockerfile: </p>
+<p> FROM openjdk:11<br> ADD target/docker-sb.jar docker-sb.jar<br> EXPOSE 8085<br> ENTRYPOINT [“java”,”-jar”,”docker-sb.jar”]</p>
+</li>
+<li><p>create docker image :</p>
+<p> $ docker build -f Dockerfile -t rafwang/docker-sb .</p>
+</li>
+<li><p>run in docker: </p>
+<p> $ docker run -p 8085:8085 rafwang/docker-sb</p>
+</li>
+<li><p>visit <a target="_blank" rel="noopener" href="http://localhost:8085/rest/docker/hello">http://localhost:8085/rest/docker/hello</a></p>
+</li>
+</ol>
+<p>Study Case: docker-springboot    <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=FlSup_eelYE">video</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/02/05/Docker-Spring-Boot-build-with-Dockerfile/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Nacos" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/05/Nacos/">Nacos</a>
+    </h1>
+  
+
+        
+        <a href="/2021/02/05/Nacos/" class="archive-article-date">
+  	<time datetime="2021-02-05T09:54:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>Start Nacos in docker-compose : </li>
+</ol>
+<pre><code>services:
+nacos-registry:
+    image: nacos/nacos-server:1.3.0
+    container_name: nacos-registry
+    environment:
+          - &quot;MODE=standalone&quot;
+    ports:
+            - 8848:8848
+
+
+$ docker-compose -f docker-compose-env.yml up -d
+</code></pre>
+<p><strong>http://{ip}:8848/nacos/index.html</strong>   username: nacos     password:nacos</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/02/05/Nacos/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Docker-Stack-Deploy" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/04/Docker-Stack-Deploy/">Docker Stack Deploy</a>
+    </h1>
+  
+
+        
+        <a href="/2021/02/04/Docker-Stack-Deploy/" class="archive-article-date">
+  	<time datetime="2021-02-04T08:16:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/02/04/Docker-Stack-Deploy/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Docker" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     

@@ -6,24 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Install Docker &amp; Docker Commands | Rapheal&#39;s Tech Blog</title>
+  <title>Docker Spring Boot build with Dockerfile | Rapheal&#39;s Tech Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Install Docker on the Ubuntu Desktop 20.04Here is the document from docker. First I remove the old version: $ sudo apt-get remove docker docker-engine docker.io containerd runc  Then  I Installed usi">
+  <meta name="description" content="Create a spring boot, import springframework.web package.   Create a controller:   package com.example.dockerspringboot.resource;  import org.springframework.web.bind.annotation.GetMapping; import or">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Install Docker &amp; Docker Commands">
-<meta property="og:url" content="http://example.com/2021/02/03/Docker/index.html">
+<meta property="og:title" content="Docker Spring Boot build with Dockerfile">
+<meta property="og:url" content="http://example.com/2021/02/05/Docker-Spring-Boot-build-with-Dockerfile/index.html">
 <meta property="og:site_name" content="Rapheal&#39;s Tech Blog">
-<meta property="og:description" content="Install Docker on the Ubuntu Desktop 20.04Here is the document from docker. First I remove the old version: $ sudo apt-get remove docker docker-engine docker.io containerd runc  Then  I Installed usi">
+<meta property="og:description" content="Create a spring boot, import springframework.web package.   Create a controller:   package com.example.dockerspringboot.resource;  import org.springframework.web.bind.annotation.GetMapping; import or">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://raw.githubusercontent.com/Raphael-De-Wang/BlogResources/main/docker/default_networking.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/Raphael-De-Wang/BlogResources/main/docker/bridge_network.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/Raphael-De-Wang/BlogResources/main/docker/frontend-backend.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/Raphael-De-Wang/BlogResources/main/docker/docker_engine.jpg">
-<meta property="article:published_time" content="2021-02-03T20:08:17.000Z">
-<meta property="article:modified_time" content="2021-02-04T05:37:16.881Z">
+<meta property="article:published_time" content="2021-02-05T15:06:39.000Z">
+<meta property="article:modified_time" content="2021-02-05T16:02:19.758Z">
 <meta property="article:author" content="Raphael">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/Raphael-De-Wang/BlogResources/main/docker/default_networking.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Rapheal&#39;s Tech Blog" type="application/atom+xml">
   
@@ -147,348 +142,56 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Docker" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Docker-Spring-Boot-build-with-Dockerfile" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Install Docker &amp; Docker Commands
+      Docker Spring Boot build with Dockerfile
     </h1>
   
 
         
-        <a href="/2021/02/03/Docker/" class="archive-article-date">
-  	<time datetime="2021-02-03T20:08:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-03</time>
+        <a href="/2021/02/05/Docker-Spring-Boot-build-with-Dockerfile/" class="archive-article-date">
+  	<time datetime="2021-02-05T15:06:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-05</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <hr>
-<h1 id="Install-Docker-on-the-Ubuntu-Desktop-20-04"><a href="#Install-Docker-on-the-Ubuntu-Desktop-20-04" class="headerlink" title="Install Docker on the Ubuntu Desktop 20.04"></a>Install Docker on the Ubuntu Desktop 20.04</h1><p>Here is the <a target="_blank" rel="noopener" href="https://docs.docker.com/engine/install/ubuntu/">document</a> from docker.</p>
-<p>First I remove the old version:</p>
-<pre><code>$ sudo apt-get remove docker docker-engine docker.io containerd runc
+        <ol>
+<li><p>Create a spring boot, import springframework.web package. </p>
+</li>
+<li><p>Create a controller: </p>
+<p> package com.example.dockerspringboot.resource;</p>
+<p> import org.springframework.web.bind.annotation.GetMapping;<br> import org.springframework.web.bind.annotation.RequestMapping;<br> import org.springframework.web.bind.annotation.RestController;</p>
+<p> @RequestMapping(“/rest/docker/hello”)<br> @RestController<br> public class HelloRes {</p>
+<pre><code> @GetMapping public  String hello () &#123;
+     return &quot;hello J&quot;;
+ &#125;
 </code></pre>
-<p>Then  I Installed using the convenience script. Here it is: </p>
-<pre><code>$ curl -fsSL https://get.docker.com -o get-docker.sh
-$ sudo sh get-docker.sh
-</code></pre>
-<p>Remeber to add your accound to the docker group after the installation.</p>
-<pre><code>$ sudo usermod -aG docker &lt;your-user&gt;
-</code></pre>
-<p>And you need to check if the docker command is belong to docker group. Usually it is belong to root group. </p>
-<pre><code>$ ls -al `which docker`
-</code></pre>
-<p>If not, you need to change the group manually. </p>
-<pre><code>$ sudo chgrp docker `which docker` 
-</code></pre>
-<p>To test if the installation is working correctly: </p>
-<pre><code>$ docker run hello-world
-</code></pre>
-<p>If you encounter the permission denied issue, try: </p>
-<pre><code>$ sudo systemctl restart docker
-</code></pre>
-<p>and logout. This worked for me. </p>
-<hr>
-<h1 id="Basic-Docker-Commands"><a href="#Basic-Docker-Commands" class="headerlink" title="Basic Docker Commands"></a>Basic Docker Commands</h1><p>Start a container</p>
-<pre><code>$ docker run nginx
-</code></pre>
-<p>List containers</p>
-<pre><code>~$ docker ps -a
-CONTAINER ID   IMAGE         COMMAND                  CREATED              STATUS                      PORTS     NAMES
-8db74ee17b0d   nginx         &quot;/docker-entrypoint.…&quot;   About a minute ago   Up About a minute           80/tcp    thirsty_lehmann
-fefbc75c1d6e   hello-world   &quot;/hello&quot;                 8 minutes ago        Exited (0) 8 minutes ago              great_feynman
-</code></pre>
-<p>Stop a container</p>
-<pre><code>$ docker stop thirsty_lehmann 
-</code></pre>
-<p>Remove a container </p>
-<pre><code>$ docker rm thirsty_lehmann
-</code></pre>
-<p>List images</p>
-<pre><code>$ docker images
-</code></pre>
-<p>Remove images</p>
-<pre><code>$ docker rmi nginx
-</code></pre>
-<p>Download un image</p>
-<pre><code>$ docker pull nginx
-</code></pre>
-<p>Run a command in the container of ubuntu </p>
-<pre><code>$ docker run ubuntu sleep 100
-$ docker ps 
-CONTAINER ID   IMAGE     COMMAND       CREATED         STATUS         PORTS     NAMES
-796ba8ba8091   ubuntu    &quot;sleep 100&quot;   9 seconds ago   Up 7 seconds             beautiful_euclid
-$ docker exec beautiful_euclid cat /etc/hosts
-127.0.0.1    localhost
-::1    localhost ip6-localhost ip6-loopback
-</code></pre>
-<p>Detach and attach</p>
-<pre><code>$ docker run -d nginx
-</code></pre>
-<p><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/docker/">Docker Command line Document</a></p>
-<p><a target="_blank" rel="noopener" href="https://docs.docker.com/docker-hub/official_images/">Docker Official Images on Docker Hub Document</a></p>
-<p>Docker Hub: <a target="_blank" rel="noopener" href="https://hub.docker.com/">https://hub.docker.com/</a></p>
-<hr>
-<h1 id="Run"><a href="#Run" class="headerlink" title="Run"></a>Run</h1><p>tag:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker run redis:4.0</span><br><span class="line">$ docker run kodekloud&#x2F;simple-prompt-docker </span><br><span class="line">Welcome! Please enter your name: </span><br><span class="line"></span><br><span class="line">Hello and Welcome !</span><br></pre></td></tr></table></figure>
-<p>Stdin</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -i kodekloud&#x2F;simple-prompt-docker </span><br><span class="line">Welcome! Please enter your name: hallo-ketty</span><br><span class="line"></span><br><span class="line">Hello and Welcome hallo-ketty!</span><br></pre></td></tr></table></figure>
-<p>Terminal Mode</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -it kodekloud&#x2F;simple-prompt-docker</span><br></pre></td></tr></table></figure>
-<p>Port mapping </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -p new_port:container_port kodekloud&#x2F;simple-webapp</span><br></pre></td></tr></table></figure>
-<p>Volume mapping </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -v new_file:container_file mysql</span><br><span class="line">$ docker run -v &#x2F;opt&#x2F;datadir:&#x2F;var&#x2F;lib&#x2F;mysql mysql</span><br></pre></td></tr></table></figure>
-<p>Inspect Container</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker inspect container_name</span><br><span class="line">$ docker inspect -f &#39;&#123;&#123;range .NetworkSettings.Networks&#125;&#125;&#123;&#123;.IPAddress&#125;&#125;&#123;&#123;end&#125;&#125;&#39; container_name</span><br></pre></td></tr></table></figure>
-<p>logs</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker logs container_name</span><br></pre></td></tr></table></figure>
-<p>ENV variables</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -e ENV_VAR&#x3D;env_var_value image_name</span><br></pre></td></tr></table></figure>
-<hr>
-<h1 id="Containerizing"><a href="#Containerizing" class="headerlink" title="Containerizing"></a>Containerizing</h1><ol>
-<li>create a dockerfile</li>
-<li>docker build Dockerfile -t account_name/image_name</li>
-<li>docker push account_name/image_name</li>
+<p> }</p>
+</li>
+<li><p>porm.xml change finalname to docker-sb.jar</p>
+</li>
+<li><p>define server.port=8085 in application.properties </p>
+</li>
+<li><p>create Dockerfile: </p>
+<p> FROM openjdk:11<br> ADD target/docker-sb.jar docker-sb.jar<br> EXPOSE 8085<br> ENTRYPOINT [“java”,”-jar”,”docker-sb.jar”]</p>
+</li>
+<li><p>create docker image :</p>
+<p> $ docker build -f Dockerfile -t rafwang/docker-sb .</p>
+</li>
+<li><p>run in docker: </p>
+<p> $ docker run -p 8085:8085 rafwang/docker-sb</p>
+</li>
+<li><p>visit <a target="_blank" rel="noopener" href="http://localhost:8085/rest/docker/hello">http://localhost:8085/rest/docker/hello</a></p>
+</li>
 </ol>
-<ul>
-<li>dockerfile: </li>
-</ul>
-<p>start from a base OS or another image:</p>
-<pre><code>FROM Ubuntu    
-</code></pre>
-<p>install all dependencies: </p>
-<pre><code>RUN apt-get update
-RUN apt-get install python
-
-RUN pip install flask
-RUN pip install flask-mysql
-</code></pre>
-<p>Copy source code:</p>
-<pre><code>COPY . /opt/source-code
-</code></pre>
-<p>Specify Entrypoint:</p>
-<pre><code>ENTRYPOINT FLASK_APP=/opt/source-code/app.py flask run
-</code></pre>
-<hr>
-<h1 id="CMD-amp-ENTRYPOINT"><a href="#CMD-amp-ENTRYPOINT" class="headerlink" title="CMD &amp; ENTRYPOINT"></a>CMD &amp; ENTRYPOINT</h1><p>In the dockerfile, the <a target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/builder/#cmd">CMD</a> instruction has three forms:</p>
-<pre><code>CMD [&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;] (exec form, this is the preferred form)
-CMD [&quot;param1&quot;,&quot;param2&quot;] (as default parameters to ENTRYPOINT)
-CMD command param1 param2 (shell form)
-</code></pre>
-<p>There can only be one CMD instruction in a Dockerfile. If you list more than one CMD then only the last CMD will take effect.</p>
-<hr>
-<p><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/builder/#entrypoint">ENTRYPOINT</a> has two forms:</p>
-<p>The <em>exec</em> form, which is the preferred form:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ENTRYPOINT [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]</span><br></pre></td></tr></table></figure>
-<p>The <em>shell</em> form:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ENTRYPOINT command param1 param2</span><br></pre></td></tr></table></figure>
-<p>An <code>ENTRYPOINT</code> allows you to configure a container that will run as an executable.</p>
-<h1 id="Networking"><a href="#Networking" class="headerlink" title="Networking"></a>Networking</h1><p>Default Networking: </p>
-<pre><code>docker run ubuntu
-</code></pre>
-<img src="https://raw.githubusercontent.com/Raphael-De-Wang/BlogResources/main/docker/default_networking.jpg" alt="Default Network" style="zoom:50%;" />
-
-<p>With <a target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/run/#connect-a-container-to-a-network---network">–networking</a> flag, </p>
-<p>None network:</p>
-<pre><code>docker run ubuntu --networking=none
-</code></pre>
-<p>Attach to the ports of the host</p>
-<pre><code>docker run ubuntu --networking=host
-</code></pre>
-<p>Choose the IP addresses for the container with –ip and –ip6 flags</p>
-<pre><code>docker run -itd --network=my-net --ip=10.10.9.75 ubuntu
-</code></pre>
-<table>
-<thead>
-<tr>
-<th>Command</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/network_connect/">docker network connect</a></td>
-<td>Connect a container to a network</td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/network_create/">docker network create</a></td>
-<td>Create a network</td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/network_disconnect/">docker network disconnect</a></td>
-<td>Disconnect a container from a network</td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/network_inspect/">docker network inspect</a></td>
-<td>Display detailed information on one or more networks</td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/network_ls/">docker network ls</a></td>
-<td>List networks</td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/network_prune/">docker network prune</a></td>
-<td>Remove all unused networks</td>
-</tr>
-<tr>
-<td><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/reference/commandline/network_rm/">docker network rm</a></td>
-<td>Remove one or more networks</td>
-</tr>
-</tbody></table>
-<pre><code>docker network create --driver bridge --subnet 182.18.0.0\16 [NAME]
-</code></pre>
-<p><img src="https://raw.githubusercontent.com/Raphael-De-Wang/BlogResources/main/docker/bridge_network.jpg" alt="bridge network"></p>
-<p>Inspect Network: </p>
-<pre><code>docker inspect [IMAGE NAME]
-</code></pre>
-<p><a target="_blank" rel="noopener" href="https://docs.docker.com/config/containers/container-networking/#dns-services">Embedded DNS</a></p>
-<h1 id="Storage"><a href="#Storage" class="headerlink" title="Storage"></a>Storage</h1><pre><code>$ sudo ls /var/lib/docker/
-buildkit  containers  image  network  overlay2  plugins    runtimes  swarm  tmp  trust  volumesaufs
-</code></pre>
-<p>Volume flag allow to persist data :</p>
-<pre><code>docker volume  create data_volume
-</code></pre>
-<p>Then docker will create a directory /var/lib/docker/volumes/data_volume</p>
-<pre><code>docker run -v data_volume:/var/lib/mysql mysql
-</code></pre>
-<p>Or to bind to a local location:</p>
-<pre><code>docker run -v /data/mysql:/var/lib/mysql mysql
-</code></pre>
-<p>Or  bind to a storage driver:<br>    docker run –mount type=bind,source=/data/mysql,target=/var/lib/mysql mysql</p>
-<h1 id="Docker-Compose"><a href="#Docker-Compose" class="headerlink" title="Docker Compose"></a>Docker Compose</h1><h3 id="–link"><a href="#–link" class="headerlink" title="–link"></a>–link</h3><pre><code>docker run -d --name=redis redis
-docker run -d --name=db mysql
-docker run -d --name=vote -p 5000:80 --link redis:redis voting-app
-docker run -d --name=result -p 5001:80 --link db:db result-app
-docker run -d --name=worker --link db:db --link redis:redis worker
-</code></pre>
-<p>To docker-compose.yml</p>
-<pre><code>Services: 
-    redis:
-        image: &quot;redis&quot; 
-    db:
-        image: &quot;mysql&quot;
-    vote:
-        image: &quot;voting-app&quot;
-        ports:
-            - 5000:80
-        links:
-            - redis
-    result:
-        image: &quot;result-app&quot;
-        ports:
-            - 5001:80
-        links:
-            -db
-    worker:
-        image: &quot;worker&quot;
-        links:
-            - redis
-            - db
-</code></pre>
-<h3 id="build"><a href="#build" class="headerlink" title="-build"></a>-build</h3><pre><code>Services: 
-    redis:
-        image: &quot;redis&quot; 
-    db:
-        image: &quot;mysql&quot;
-    vote:
-        build: ./voting-app
-        ports:
-            - 5000:80
-        links:
-            - redis
-    result:
-        build: ./result-app
-        ports:
-            - 5001:80
-        links:
-            -db
-    worker:
-        build: ./worker
-        links:
-            - redis
-            - db
-
-$ docker-compose up
-</code></pre>
-<p>Docker compose -version</p>
-<p>Front-end &amp; back-end network </p>
-<pre><code>Services: 
-    redis:
-        image: &quot;redis&quot; 
-        networks: 
-            - back-end
-    db:
-        image: &quot;mysql&quot;
-        networks:
-            - back-end
-    vote:
-        build: ./voting-app
-        ports:
-            - 5000:80
-        links:
-            - redis
-        networks:
-            - front-end
-    result:
-        build: ./result-app
-        ports:
-            - 5001:80
-        links:
-            -db
-        networks:
-            - front-end
-    worker:
-        build: ./worker
-        links:
-            - redis
-            - db
-        networks:
-            - back-end
-
-networks:
-    front-end:
-    back-end:
-</code></pre>
-<p><img src="https://raw.githubusercontent.com/Raphael-De-Wang/BlogResources/main/docker/frontend-backend.jpg"></p>
-<hr>
-<h1 id="Docker-Registry"><a href="#Docker-Registry" class="headerlink" title="Docker Registry"></a>Docker Registry</h1><p>private registry: </p>
-<pre><code>docker login private-registry.io
-docker run private-registry.io/app/interal-app
-</code></pre>
-<p>deploy private registry:</p>
-<pre><code>docker run -d -p 5000:5000 --name=registry registry:2
-docker image tag my-image localhost:5000/my-image
-docker push localhost:5000/my-image
-docker pull localhost:5000/my-image
-docker pull 192.168.56.100:/my-image
-</code></pre>
-<h1 id="Engine"><a href="#Engine" class="headerlink" title="Engine"></a>Engine</h1><p><img src="https://raw.githubusercontent.com/Raphael-De-Wang/BlogResources/main/docker/docker_engine.jpg"></p>
-<pre><code>docker run --cpus=0.5 ubuntu
-docker run --memory=100m ubuntu
-</code></pre>
-<p><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/">Engine</a></p>
-<h1 id="Container-Orchestration"><a href="#Container-Orchestration" class="headerlink" title="Container Orchestration"></a>Container Orchestration</h1><pre><code>docker service create --duplicas=100 nodejs
-</code></pre>
-<p>Solutions: docker swarm, kubernetes, MESOS</p>
-<h1 id="Docker-Swarm"><a href="#Docker-Swarm" class="headerlink" title="Docker Swarm"></a>Docker Swarm</h1><p>Responsible for load balancing on the docker hosts<br>On Swarm Manager: </p>
-<pre><code>$ docker swarm init
-</code></pre>
-<p>On swarm workers: </p>
-<pre><code>$ docker swarm join --token &lt;token&gt;
-</code></pre>
-<p>Then on the manager again: </p>
-<pre><code>$ docker service create --replicas=3 -p 8080:80 my-web-server
-</code></pre>
-<h1 id="kubernetes"><a href="#kubernetes" class="headerlink" title="kubernetes"></a>kubernetes</h1><pre><code>$ kubectl run --replicas=1000  my-web-server
-$ kubectl scale --replicas=2000  my-web-server
-$ kubectl rolling-update my-web-server --image=web-server:2
-$ kubectl rolling-update my-web-server --rollback
-</code></pre>
-<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=fqMOX6JJhGo">ref VIDEO</a></p>
+<p>Study Case: docker-springboot    <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=FlSup_eelYE">video</a></p>
 
       
 
@@ -547,7 +250,7 @@ $ kubectl rolling-update my-web-server --rollback
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2021/02/03/Docker/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2021/02/05/Docker-Spring-Boot-build-with-Dockerfile/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -561,18 +264,9 @@ $ kubectl rolling-update my-web-server --rollback
   
 <nav id="article-nav">
   
-    <a href="/2021/02/04/Docker-Stack-Deploy/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Docker Stack Deploy
-        
-      </div>
-    </a>
   
-  
-    <a href="/2021/01/26/Deploy-Hexo-To-Github/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Deploy Hexo To Github</div>
+    <a href="/2021/02/05/Nacos/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Nacos</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -599,7 +293,7 @@ $ kubectl rolling-update my-web-server --rollback
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Install-Docker-on-the-Ubuntu-Desktop-20-04"><span class="toc-number">1.</span> <span class="toc-text">Install Docker on the Ubuntu Desktop 20.04</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Basic-Docker-Commands"><span class="toc-number">2.</span> <span class="toc-text">Basic Docker Commands</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Run"><span class="toc-number">3.</span> <span class="toc-text">Run</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Containerizing"><span class="toc-number">4.</span> <span class="toc-text">Containerizing</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CMD-amp-ENTRYPOINT"><span class="toc-number">5.</span> <span class="toc-text">CMD &amp; ENTRYPOINT</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Networking"><span class="toc-number">6.</span> <span class="toc-text">Networking</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Storage"><span class="toc-number">7.</span> <span class="toc-text">Storage</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Docker-Compose"><span class="toc-number">8.</span> <span class="toc-text">Docker Compose</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%80%93link"><span class="toc-number">8.0.1.</span> <span class="toc-text">–link</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#build"><span class="toc-number">8.0.2.</span> <span class="toc-text">-build</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Docker-Registry"><span class="toc-number">9.</span> <span class="toc-text">Docker Registry</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Engine"><span class="toc-number">10.</span> <span class="toc-text">Engine</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Container-Orchestration"><span class="toc-number">11.</span> <span class="toc-text">Container Orchestration</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Docker-Swarm"><span class="toc-number">12.</span> <span class="toc-text">Docker Swarm</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#kubernetes"><span class="toc-number">13.</span> <span class="toc-text">kubernetes</span></a></li></ol>
+                    目录，不存在的…
                     </div>
                 </span>
             </div>
