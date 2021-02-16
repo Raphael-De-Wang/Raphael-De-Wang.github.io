@@ -6,17 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Docker Stack Deploy | Rapheal&#39;s Tech Blog</title>
+  <title>Nacos | Rapheal&#39;s Tech Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Note of the traps and the solutions:  1. RegistryPrivate Registryvideo ref bilan:   Create or modify &#x2F;etc&#x2F;docker&#x2F;daemon.json  &amp;#123; &quot;insecure-registries&quot;:[&quot;myregistry.example.com:5000&amp;">
+  <meta name="description" content="Start Nacos in docker-compose :   services: nacos-registry:     image: nacos&#x2F;nacos-server:1.3.0     container_name: nacos-registry     environment:           - &quot;MODE&#x3D;standalone&quot;     ports:">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Docker Stack Deploy">
-<meta property="og:url" content="http://example.com/2021/02/04/Docker-Stack-Deploy/index.html">
+<meta property="og:title" content="Nacos">
+<meta property="og:url" content="http://example.com/2021/02/05/Nacos/index.html">
 <meta property="og:site_name" content="Rapheal&#39;s Tech Blog">
-<meta property="og:description" content="Note of the traps and the solutions:  1. RegistryPrivate Registryvideo ref bilan:   Create or modify &#x2F;etc&#x2F;docker&#x2F;daemon.json  &amp;#123; &quot;insecure-registries&quot;:[&quot;myregistry.example.com:5000&amp;">
+<meta property="og:description" content="Start Nacos in docker-compose :   services: nacos-registry:     image: nacos&#x2F;nacos-server:1.3.0     container_name: nacos-registry     environment:           - &quot;MODE&#x3D;standalone&quot;     ports:">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-02-04T08:16:23.000Z">
-<meta property="article:modified_time" content="2021-02-16T16:32:04.948Z">
+<meta property="article:published_time" content="2021-02-05T09:54:02.000Z">
+<meta property="article:modified_time" content="2021-02-14T12:35:59.563Z">
 <meta property="article:author" content="Raphael">
 <meta name="twitter:card" content="summary">
   
@@ -142,111 +142,42 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Docker-Stack-Deploy" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Nacos" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Docker Stack Deploy
+      Nacos
     </h1>
   
 
         
-        <a href="/2021/02/04/Docker-Stack-Deploy/" class="archive-article-date">
-  	<time datetime="2021-02-04T08:16:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-04</time>
+        <a href="/2021/02/05/Nacos/" class="archive-article-date">
+  	<time datetime="2021-02-05T09:54:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-05</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Note of the traps and the solutions: </p>
-<h4 id="1-Registry"><a href="#1-Registry" class="headerlink" title="1. Registry"></a>1. Registry</h4><p><a target="_blank" rel="noopener" href="https://yeasy.gitbook.io/docker_practice/repository/registry">Private Registry</a><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=8gEs_zefNYA">video ref</a></p>
-<p>bilan: </p>
-<ol>
-<li><p>Create or modify /etc/docker/daemon.json</p>
-<pre><code> &#123; &quot;insecure-registries&quot;:[&quot;myregistry.example.com:5000&quot;] &#125;
-</code></pre>
-</li>
-<li><p>Restart docker daemon</p>
-<pre><code> sudo service daemon-reload &amp;&amp; sudo service docker restart
-</code></pre>
-</li>
+        <ol>
+<li>Start Nacos in docker-compose : </li>
 </ol>
-<h4 id="2-Container-networking-and-DNS-services"><a href="#2-Container-networking-and-DNS-services" class="headerlink" title="2. Container networking and DNS services"></a>2. <a target="_blank" rel="noopener" href="https://docs.docker.com/config/containers/container-networking/">Container networking and DNS services</a></h4><p><a target="_blank" rel="noopener" href="https://docs.docker.com/network/bridge/">Docker Bridge Network</a><br><a target="_blank" rel="noopener" href="https://yeasy.gitbook.io/docker_practice/network/port_mapping">Port Mapping</a><br><a target="_blank" rel="noopener" href="https://yeasy.gitbook.io/docker_practice/network/linking">Linking Containers</a></p>
-<h4 id="3-Docker-and-iptables"><a href="#3-Docker-and-iptables" class="headerlink" title="3. Docker and iptables"></a>3. <a target="_blank" rel="noopener" href="https://docs.docker.com/network/iptables/">Docker and iptables</a></h4><p><a target="_blank" rel="noopener" href="https://yeasy.gitbook.io/docker_practice/advanced_network/port_mapping">Mapping to external ip</a> </p>
-<h4 id="4-Finding-out-what-package-a-command-came-from-example"><a href="#4-Finding-out-what-package-a-command-came-from-example" class="headerlink" title="4. Finding out what package a command came from : example"></a>4. Finding out what package a command came from : example</h4><pre><code>   $ dpkg -S &#39;systemd-resolve&#39;
-   systemd: /usr/share/bash-completion/completions/systemd-resolve
-   systemd: /usr/share/man/man8/systemd-resolved.8.gz
-   systemd: /lib/systemd/systemd-resolved
-   systemd: /lib/systemd/system/systemd-resolved.service
-   systemd: /usr/bin/systemd-resolve
-   systemd: /usr/share/man/man8/systemd-resolved.service.8.gz
-   
-   $ dpkg -s systemd
-   Package: systemd
-   Status: install ok installed
-   Priority: important
-   Section: admin
-   Installed-Size: 15084
-   .....
-   Description: system and service manager
-    systemd is a system and service...
+<pre><code>services:
+nacos-registry:
+    image: nacos/nacos-server:1.3.0
+    container_name: nacos-registry
+    environment:
+          - &quot;MODE=standalone&quot;
+    ports:
+            - 8848:8848
+
+
+$ docker-compose -f docker-compose-env.yml up -d
 </code></pre>
-<h4 id="5-What-DNS-servers-am-I-using-Both-of-the-follows-worked-for-me"><a href="#5-What-DNS-servers-am-I-using-Both-of-the-follows-worked-for-me" class="headerlink" title="5. What DNS servers am I using? Both of the follows worked for me :"></a>5. What DNS servers am I using? Both of the follows worked for me :</h4><pre><code>   $ nmcli dev show 
-   $ systemd-resolve --statusll
-</code></pre>
-<h4 id="6-Auto-SSH-Login"><a href="#6-Auto-SSH-Login" class="headerlink" title="6. Auto SSH Login"></a>6. <a target="_blank" rel="noopener" href="https://www.ssh.com/ssh/keygen/">Auto SSH Login</a></h4><pre><code>   raf@Atua:~$ ssh-keygen -f ~/.ssh/ThinkPad-X240s -t ecdsa -b 521
-   raf@Atua:~$ ssh-copy-id -i ~/.ssh/ThinkPad-X240s.pub raf@192.168.1.29
-</code></pre>
-<h4 id="7-Docker-Where-is-“reset-to-factory-defaults”-on-linux"><a href="#7-Docker-Where-is-“reset-to-factory-defaults”-on-linux" class="headerlink" title="7. Docker: Where is “reset to factory defaults” on linux?"></a>7. Docker: Where is “reset to factory defaults” on linux?</h4><pre><code>   $ sudo rm -rf /var/lib/docker
-</code></pre>
-<h4 id="8-Enabling-GPU-access-with-Compose"><a href="#8-Enabling-GPU-access-with-Compose" class="headerlink" title="8. Enabling GPU access with Compose"></a>8. <a target="_blank" rel="noopener" href="https://docs.docker.com/compose/gpu-support/">Enabling GPU access with Compose</a></h4><h4 id="9-Connect-to-Naco-Registry"><a href="#9-Connect-to-Naco-Registry" class="headerlink" title="9. Connect to Naco-Registry"></a>9. Connect to Naco-Registry</h4><pre><code>    $ docker logs --details mall-admin 
-    2021-02-16 09:03:12.221 ERROR 1 --- [           main] c.a.n.c.config.http.ServerHttpAgent      : [NACOS SocketTimeoutException httpGet] currentServerAddr:http://nacos-registry:8848， err : connect timed out
-    
-    $ cat /etc/hosts
-    127.0.0.1    localhost
-    127.0.1.1    Atua
-    127.0.0.1   registry.atua.com
-    
-    192.168.1.29    db
-    192.168.1.29    nacos-registry
-    192.168.1.29    redis
-    192.168.1.29    mongo
-    192.168.1.29    rabbit
-    
-    $ ping nacos-registry
-    PING nacos-registry (192.168.1.29) 56(84) bytes of data.
-    64 bytes from db (192.168.1.29): icmp_seq=1 ttl=64 time=65.3 ms
-    
-    http://nacos-registry:8848/nacos/
-    username/password: nacos/nacos
-</code></pre>
-<h4 id="10-usr-lib-systemd-system-docker-service"><a href="#10-usr-lib-systemd-system-docker-service" class="headerlink" title="10. /usr/lib/systemd/system/docker.service"></a>10. /usr/lib/systemd/system/docker.service</h4><p>Sometimes, the modification of ExecStart makes restart docker failed. </p>
-<pre><code>    ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
-    ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix://var/run/docker.sock
-</code></pre>
-<p>This fixed my problem:         </p>
-<pre><code>    $ docker ps
-    Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?
-    $ sudo systemctl stop docker.socket 
-    $ sudo systemctl daemon-reload 
-    $ sudo systemctl restart docker
-</code></pre>
-<p>The log of systemd may help as well: </p>
-<pre><code>    $ journalctl -f
-</code></pre>
-<h4 id="11-Docker-container-log"><a href="#11-Docker-container-log" class="headerlink" title="11. Docker container log"></a>11. Docker container log</h4><pre><code>    $ docker logs mall-admin --since 40 | less
-</code></pre>
-<h4 id="12-listener-on-a-port"><a href="#12-listener-on-a-port" class="headerlink" title="12. listener on a port"></a>12. listener on a port</h4><pre><code>    $ netstat -tln
-</code></pre>
-<h4 id="13-mysql-client-connect-to-remote-mysql-server"><a href="#13-mysql-client-connect-to-remote-mysql-server" class="headerlink" title="13. mysql client connect to remote mysql server"></a>13. <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/2983248/com-mysql-jdbc-exceptions-jdbc4-communicationsexception-communications-link-fai">mysql client connect to remote mysql server</a></h4><pre><code>    $ mysql -uroot -proot --default-character-set=utf8 -h db
-    
-</code></pre>
-<h4 id="14-connect-to-remote-Redis-server"><a href="#14-connect-to-remote-Redis-server" class="headerlink" title="14. connect to remote Redis server"></a>14. <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/40678865/how-to-connect-to-remote-redis-server">connect to remote Redis server</a></h4><pre><code>    $ redis-cli -h redis -p 6379
-</code></pre>
+<p><strong>http://{ip}:8848/nacos/index.html</strong>   username: nacos     password:nacos</p>
 
       
 
@@ -305,7 +236,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2021/02/04/Docker-Stack-Deploy/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2021/02/05/Nacos/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -319,18 +250,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2021/02/05/Nacos/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2021/02/05/Docker-Spring-Boot-build-with-Dockerfile/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          Nacos
+          Docker Spring Boot build with Dockerfile
         
       </div>
     </a>
   
   
-    <a href="/2021/02/03/Docker/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Install Docker &amp; Docker Commands</div>
+    <a href="/2021/02/04/Docker-Stack-Deploy/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Docker Stack Deploy</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -357,7 +288,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Registry"><span class="toc-number">1.</span> <span class="toc-text">1. Registry</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Container-networking-and-DNS-services"><span class="toc-number">2.</span> <span class="toc-text">2. Container networking and DNS services</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Docker-and-iptables"><span class="toc-number">3.</span> <span class="toc-text">3. Docker and iptables</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-Finding-out-what-package-a-command-came-from-example"><span class="toc-number">4.</span> <span class="toc-text">4. Finding out what package a command came from : example</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-What-DNS-servers-am-I-using-Both-of-the-follows-worked-for-me"><span class="toc-number">5.</span> <span class="toc-text">5. What DNS servers am I using? Both of the follows worked for me :</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-Auto-SSH-Login"><span class="toc-number">6.</span> <span class="toc-text">6. Auto SSH Login</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-Docker-Where-is-%E2%80%9Creset-to-factory-defaults%E2%80%9D-on-linux"><span class="toc-number">7.</span> <span class="toc-text">7. Docker: Where is “reset to factory defaults” on linux?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-Enabling-GPU-access-with-Compose"><span class="toc-number">8.</span> <span class="toc-text">8. Enabling GPU access with Compose</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-Connect-to-Naco-Registry"><span class="toc-number">9.</span> <span class="toc-text">9. Connect to Naco-Registry</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-usr-lib-systemd-system-docker-service"><span class="toc-number">10.</span> <span class="toc-text">10. &#x2F;usr&#x2F;lib&#x2F;systemd&#x2F;system&#x2F;docker.service</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11-Docker-container-log"><span class="toc-number">11.</span> <span class="toc-text">11. Docker container log</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#12-listener-on-a-port"><span class="toc-number">12.</span> <span class="toc-text">12. listener on a port</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#13-mysql-client-connect-to-remote-mysql-server"><span class="toc-number">13.</span> <span class="toc-text">13. mysql client connect to remote mysql server</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#14-connect-to-remote-Redis-server"><span class="toc-number">14.</span> <span class="toc-text">14. connect to remote Redis server</span></a></li></ol>
+                    目录，不存在的…
                     </div>
                 </span>
             </div>
