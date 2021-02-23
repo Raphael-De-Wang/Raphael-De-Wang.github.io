@@ -185,28 +185,28 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: litemall123456
 </code></pre>
-<p>init database :</p>
-<pre><code>$ docker ps 
-$ docker cp litemall/litemall-db/sql/litemall_schema.sql litemall-mysql:/
-$ docker cp litemall/litemall-db/sql/litemall_table.sql litemall-mysql:/
-$ docker cp litemall/litemall-db/sql/litemall_data.sql litemall-mysql:/
-$ docker exec -it litemall-mysql /bin/bash
-# mysql -uroot -plitemall123456 --default-character-set=utf8
-&gt; source /litemall_schema.sql;
-&gt; source /litemall_table.sql;
-&gt; source /litemall_data.sql;
-&gt; show databases;
-&gt; use litemall;
-&gt; show tables;
-&gt; quit
-# ctl-p + ctl-q
+</li>
+<li><p>init database :</p>
+<pre><code> $ docker ps 
+ $ docker cp litemall/litemall-db/sql/litemall_schema.sql litemall-mysql:/
+ $ docker cp litemall/litemall-db/sql/litemall_table.sql litemall-mysql:/
+ $ docker cp litemall/litemall-db/sql/litemall_data.sql litemall-mysql:/
+ $ docker exec -it litemall-mysql /bin/bash
+ # mysql -uroot -plitemall123456 --default-character-set=utf8
+ &gt; source /litemall_schema.sql;
+ &gt; source /litemall_table.sql;
+ &gt; source /litemall_data.sql;
+ &gt; show databases;
+ &gt; use litemall;
+ &gt; show tables;
+ &gt; quit
+ # ctl-p + ctl-q
 </code></pre>
 </li>
 <li><p>test connection : </p>
-<pre><code>$ cat /etc/hosts
-127.0.0.1        localhost 
+<pre><code> $ cat /etc/hosts
+ 127.0.0.1        localhost 
 192.168.1.44    db mysql redis mongo 
-
 $ mysql -uroot -plitemall123456 --default-character-set=utf8 -h db
 mysql&gt; show tables;
 </code></pre>
