@@ -6,17 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Docker Stack Deploy | Rapheal&#39;s Tech Blog</title>
+  <title>Common Traps | Rapheal&#39;s Tech Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Note of the traps and the solutions:  1. RegistryPrivate Registryvideo ref bilan:   Create or modify &#x2F;etc&#x2F;docker&#x2F;daemon.json  &amp;#123; &quot;insecure-registries&quot;:[&quot;myregistry.example.com:5000&amp;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Docker Stack Deploy">
+<meta property="og:title" content="Common Traps">
 <meta property="og:url" content="http://example.com/2021/02/04/Docker-Stack-Deploy/index.html">
 <meta property="og:site_name" content="Rapheal&#39;s Tech Blog">
 <meta property="og:description" content="Note of the traps and the solutions:  1. RegistryPrivate Registryvideo ref bilan:   Create or modify &#x2F;etc&#x2F;docker&#x2F;daemon.json  &amp;#123; &quot;insecure-registries&quot;:[&quot;myregistry.example.com:5000&amp;">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-02-04T08:16:23.000Z">
-<meta property="article:modified_time" content="2021-02-16T16:32:04.948Z">
+<meta property="article:modified_time" content="2021-02-18T21:48:56.146Z">
 <meta property="article:author" content="Raphael">
 <meta name="twitter:card" content="summary">
   
@@ -149,7 +149,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Docker Stack Deploy
+      Common Traps
     </h1>
   
 
@@ -175,6 +175,9 @@
 </code></pre>
 </li>
 </ol>
+<p>To check images in Registry :  </p>
+<pre><code>$ curl registry.atua.com:5000/v2/_catalog
+</code></pre>
 <h4 id="2-Container-networking-and-DNS-services"><a href="#2-Container-networking-and-DNS-services" class="headerlink" title="2. Container networking and DNS services"></a>2. <a target="_blank" rel="noopener" href="https://docs.docker.com/config/containers/container-networking/">Container networking and DNS services</a></h4><p><a target="_blank" rel="noopener" href="https://docs.docker.com/network/bridge/">Docker Bridge Network</a><br><a target="_blank" rel="noopener" href="https://yeasy.gitbook.io/docker_practice/network/port_mapping">Port Mapping</a><br><a target="_blank" rel="noopener" href="https://yeasy.gitbook.io/docker_practice/network/linking">Linking Containers</a></p>
 <h4 id="3-Docker-and-iptables"><a href="#3-Docker-and-iptables" class="headerlink" title="3. Docker and iptables"></a>3. <a target="_blank" rel="noopener" href="https://docs.docker.com/network/iptables/">Docker and iptables</a></h4><p><a target="_blank" rel="noopener" href="https://yeasy.gitbook.io/docker_practice/advanced_network/port_mapping">Mapping to external ip</a> </p>
 <h4 id="4-Finding-out-what-package-a-command-came-from-example"><a href="#4-Finding-out-what-package-a-command-came-from-example" class="headerlink" title="4. Finding out what package a command came from : example"></a>4. Finding out what package a command came from : example</h4><pre><code>   $ dpkg -S &#39;systemd-resolve&#39;
@@ -203,49 +206,73 @@
 </code></pre>
 <h4 id="7-Docker-Where-is-“reset-to-factory-defaults”-on-linux"><a href="#7-Docker-Where-is-“reset-to-factory-defaults”-on-linux" class="headerlink" title="7. Docker: Where is “reset to factory defaults” on linux?"></a>7. Docker: Where is “reset to factory defaults” on linux?</h4><pre><code>   $ sudo rm -rf /var/lib/docker
 </code></pre>
-<h4 id="8-Enabling-GPU-access-with-Compose"><a href="#8-Enabling-GPU-access-with-Compose" class="headerlink" title="8. Enabling GPU access with Compose"></a>8. <a target="_blank" rel="noopener" href="https://docs.docker.com/compose/gpu-support/">Enabling GPU access with Compose</a></h4><h4 id="9-Connect-to-Naco-Registry"><a href="#9-Connect-to-Naco-Registry" class="headerlink" title="9. Connect to Naco-Registry"></a>9. Connect to Naco-Registry</h4><pre><code>    $ docker logs --details mall-admin 
-    2021-02-16 09:03:12.221 ERROR 1 --- [           main] c.a.n.c.config.http.ServerHttpAgent      : [NACOS SocketTimeoutException httpGet] currentServerAddr:http://nacos-registry:8848， err : connect timed out
+<h4 id="8-Enabling-GPU-access-with-Compose"><a href="#8-Enabling-GPU-access-with-Compose" class="headerlink" title="8. Enabling GPU access with Compose"></a>8. <a target="_blank" rel="noopener" href="https://docs.docker.com/compose/gpu-support/">Enabling GPU access with Compose</a></h4><h4 id="9-Connect-to-Naco-Registry"><a href="#9-Connect-to-Naco-Registry" class="headerlink" title="9. Connect to Naco-Registry"></a>9. Connect to Naco-Registry</h4><pre><code>$ docker logs --details mall-admin 
+2021-02-16 09:03:12.221 ERROR 1 --- [           main] c.a.n.c.config.http.ServerHttpAgent      : [NACOS SocketTimeoutException httpGet] currentServerAddr:http://nacos-registry:8848， err : connect timed out
     
-    $ cat /etc/hosts
-    127.0.0.1    localhost
-    127.0.1.1    Atua
-    127.0.0.1   registry.atua.com
+$ cat /etc/hosts
+127.0.0.1    localhost
+127.0.1.1    Atua
+127.0.0.1   registry.atua.com
     
-    192.168.1.29    db
-    192.168.1.29    nacos-registry
-    192.168.1.29    redis
-    192.168.1.29    mongo
-    192.168.1.29    rabbit
+192.168.1.29    db
+192.168.1.29    nacos-registry
+192.168.1.29    redis
+192.168.1.29    mongo
+192.168.1.29    rabbit
     
-    $ ping nacos-registry
-    PING nacos-registry (192.168.1.29) 56(84) bytes of data.
-    64 bytes from db (192.168.1.29): icmp_seq=1 ttl=64 time=65.3 ms
+$ ping nacos-registry
+PING nacos-registry (192.168.1.29) 56(84) bytes of data.
+64 bytes from db (192.168.1.29): icmp_seq=1 ttl=64 time=65.3 ms
     
-    http://nacos-registry:8848/nacos/
-    username/password: nacos/nacos
+http://nacos-registry:8848/nacos/
+username/password: nacos/nacos
 </code></pre>
 <h4 id="10-usr-lib-systemd-system-docker-service"><a href="#10-usr-lib-systemd-system-docker-service" class="headerlink" title="10. /usr/lib/systemd/system/docker.service"></a>10. /usr/lib/systemd/system/docker.service</h4><p>Sometimes, the modification of ExecStart makes restart docker failed. </p>
-<pre><code>    ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
-    ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix://var/run/docker.sock
+<pre><code>ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix://var/run/docker.sock
 </code></pre>
 <p>This fixed my problem:         </p>
-<pre><code>    $ docker ps
-    Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?
-    $ sudo systemctl stop docker.socket 
-    $ sudo systemctl daemon-reload 
-    $ sudo systemctl restart docker
+<pre><code>$ docker ps
+Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?
+$ sudo systemctl stop docker.socket 
+$ sudo systemctl daemon-reload 
+$ sudo systemctl restart docker
 </code></pre>
 <p>The log of systemd may help as well: </p>
-<pre><code>    $ journalctl -f
+<pre><code>$ journalctl -f
 </code></pre>
-<h4 id="11-Docker-container-log"><a href="#11-Docker-container-log" class="headerlink" title="11. Docker container log"></a>11. Docker container log</h4><pre><code>    $ docker logs mall-admin --since 40 | less
+<h4 id="11-Docker-container-log"><a href="#11-Docker-container-log" class="headerlink" title="11. Docker container log"></a>11. Docker container log</h4><pre><code>$ docker logs mall-admin --since 40 | less
 </code></pre>
-<h4 id="12-listener-on-a-port"><a href="#12-listener-on-a-port" class="headerlink" title="12. listener on a port"></a>12. listener on a port</h4><pre><code>    $ netstat -tln
+<h4 id="12-listener-on-a-port"><a href="#12-listener-on-a-port" class="headerlink" title="12. listener on a port"></a>12. listener on a port</h4><pre><code>$ netstat -tln
 </code></pre>
-<h4 id="13-mysql-client-connect-to-remote-mysql-server"><a href="#13-mysql-client-connect-to-remote-mysql-server" class="headerlink" title="13. mysql client connect to remote mysql server"></a>13. <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/2983248/com-mysql-jdbc-exceptions-jdbc4-communicationsexception-communications-link-fai">mysql client connect to remote mysql server</a></h4><pre><code>    $ mysql -uroot -proot --default-character-set=utf8 -h db
-    
+<h4 id="13-mysql-client-connect-to-remote-mysql-server"><a href="#13-mysql-client-connect-to-remote-mysql-server" class="headerlink" title="13. mysql client connect to remote mysql server"></a>13. <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/2983248/com-mysql-jdbc-exceptions-jdbc4-communicationsexception-communications-link-fai">mysql client connect to remote mysql server</a></h4><pre><code>$ mysql -uroot -proot --default-character-set=utf8 -h db
 </code></pre>
-<h4 id="14-connect-to-remote-Redis-server"><a href="#14-connect-to-remote-Redis-server" class="headerlink" title="14. connect to remote Redis server"></a>14. <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/40678865/how-to-connect-to-remote-redis-server">connect to remote Redis server</a></h4><pre><code>    $ redis-cli -h redis -p 6379
+<h4 id="14-connect-to-remote-Redis-server"><a href="#14-connect-to-remote-Redis-server" class="headerlink" title="14. connect to remote Redis server"></a>14. <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/40678865/how-to-connect-to-remote-redis-server">connect to remote Redis server</a></h4><pre><code>$ redis-cli -h redis -p 6379
+</code></pre>
+<h4 id="15-install-IKAnalyzer-in-elasticsearch"><a href="#15-install-IKAnalyzer-in-elasticsearch" class="headerlink" title="15. install IKAnalyzer in elasticsearch"></a>15. install IKAnalyzer in elasticsearch</h4><p>IKAnalyzer version depends on the elasticsearch. So for instance, elasticsearch-analysis-ik-6.4.0.zip is for Elasticsearch version 6.4.0, etc.. </p>
+<pre><code>$ docker exec -it elasticsearch /bin/bash
+$ elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.4.0/elasticsearch-analysis-ik-6.4.0.zip
+$ docker restart elasticsearch
+</code></pre>
+<h4 id="16-mysql-init"><a href="#16-mysql-init" class="headerlink" title="16. mysql init"></a>16. mysql init</h4><p><a target="_blank" rel="noopener" href="https://www.ohse.de/uwe/software/lrzsz.html#:~:text=lrzsz%20is%20a%20unix%20communication,the%20GNU%20General%20Public%20Licence.">lrzsz</a> is a unix communication package providing the <a href="ftp://ftp.std.com/obi/Standards/FileTransfer/YMODEM8.DOC.1.Z">XMODEM, YMODEM</a> <a target="_blank" rel="noopener" href="http://www.easysw.com/~mike/serial/zmodem.html">ZMODEM</a> file transfer protocols. lrzsz is a heavily rehacked version of the last public domain release of <a target="_blank" rel="noopener" href="http://www.omen.com/">Omen Technologies</a> <em>rzsz</em> package, and is now <a target="_blank" rel="noopener" href="http://www.gnu.ai.mit.edu/philosophy/free-sw.html">free software</a> and released under the <a target="_blank" rel="noopener" href="http://www.gnu.ai.mit.edu/copyleft/gpl.html">GNU General Public Licence</a>.</p>
+<pre><code>$ docker exec -it mysql /bin/bash
+$ mysql -uroot -proot --default-character-set=utf8
+$ create database mall character set utf8
+$ yum -y install lrzsz
+$ docker cp /mydata/mall.sql mysql:/
+$ use mall;
+$ source /mall.sql;
+$ grant all privileges on *.* to &#39;reader&#39; @&#39;%&#39; identified by &#39;123456&#39;;
+</code></pre>
+<h4 id="17-sdk-version-problem"><a href="#17-sdk-version-problem" class="headerlink" title="17. sdk version problem"></a>17. sdk version problem</h4><p>WARN: The POM for com.alibaba:druid:jar:1.1.23 is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details</p>
+<p>Solution: change sdk version to 1.8</p>
+<h4 id="18-disable-mysqld-auto-start"><a href="#18-disable-mysqld-auto-start" class="headerlink" title="18.  disable mysqld auto start"></a>18.  disable mysqld auto start</h4><pre><code>$ sudo systemctl disable mysql
+</code></pre>
+<h4 id="19-docker-maven-plugin"><a href="#19-docker-maven-plugin" class="headerlink" title="19. docker-maven-plugin"></a>19. docker-maven-plugin</h4><p>depends on sdk version 1.8</p>
+<pre><code>ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+</code></pre>
+<p>change to </p>
+<pre><code>ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix://var/run/docker.sock
 </code></pre>
 
       
@@ -357,7 +384,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Registry"><span class="toc-number">1.</span> <span class="toc-text">1. Registry</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Container-networking-and-DNS-services"><span class="toc-number">2.</span> <span class="toc-text">2. Container networking and DNS services</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Docker-and-iptables"><span class="toc-number">3.</span> <span class="toc-text">3. Docker and iptables</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-Finding-out-what-package-a-command-came-from-example"><span class="toc-number">4.</span> <span class="toc-text">4. Finding out what package a command came from : example</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-What-DNS-servers-am-I-using-Both-of-the-follows-worked-for-me"><span class="toc-number">5.</span> <span class="toc-text">5. What DNS servers am I using? Both of the follows worked for me :</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-Auto-SSH-Login"><span class="toc-number">6.</span> <span class="toc-text">6. Auto SSH Login</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-Docker-Where-is-%E2%80%9Creset-to-factory-defaults%E2%80%9D-on-linux"><span class="toc-number">7.</span> <span class="toc-text">7. Docker: Where is “reset to factory defaults” on linux?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-Enabling-GPU-access-with-Compose"><span class="toc-number">8.</span> <span class="toc-text">8. Enabling GPU access with Compose</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-Connect-to-Naco-Registry"><span class="toc-number">9.</span> <span class="toc-text">9. Connect to Naco-Registry</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-usr-lib-systemd-system-docker-service"><span class="toc-number">10.</span> <span class="toc-text">10. &#x2F;usr&#x2F;lib&#x2F;systemd&#x2F;system&#x2F;docker.service</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11-Docker-container-log"><span class="toc-number">11.</span> <span class="toc-text">11. Docker container log</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#12-listener-on-a-port"><span class="toc-number">12.</span> <span class="toc-text">12. listener on a port</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#13-mysql-client-connect-to-remote-mysql-server"><span class="toc-number">13.</span> <span class="toc-text">13. mysql client connect to remote mysql server</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#14-connect-to-remote-Redis-server"><span class="toc-number">14.</span> <span class="toc-text">14. connect to remote Redis server</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Registry"><span class="toc-number">1.</span> <span class="toc-text">1. Registry</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Container-networking-and-DNS-services"><span class="toc-number">2.</span> <span class="toc-text">2. Container networking and DNS services</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Docker-and-iptables"><span class="toc-number">3.</span> <span class="toc-text">3. Docker and iptables</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-Finding-out-what-package-a-command-came-from-example"><span class="toc-number">4.</span> <span class="toc-text">4. Finding out what package a command came from : example</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-What-DNS-servers-am-I-using-Both-of-the-follows-worked-for-me"><span class="toc-number">5.</span> <span class="toc-text">5. What DNS servers am I using? Both of the follows worked for me :</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-Auto-SSH-Login"><span class="toc-number">6.</span> <span class="toc-text">6. Auto SSH Login</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-Docker-Where-is-%E2%80%9Creset-to-factory-defaults%E2%80%9D-on-linux"><span class="toc-number">7.</span> <span class="toc-text">7. Docker: Where is “reset to factory defaults” on linux?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-Enabling-GPU-access-with-Compose"><span class="toc-number">8.</span> <span class="toc-text">8. Enabling GPU access with Compose</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-Connect-to-Naco-Registry"><span class="toc-number">9.</span> <span class="toc-text">9. Connect to Naco-Registry</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-usr-lib-systemd-system-docker-service"><span class="toc-number">10.</span> <span class="toc-text">10. &#x2F;usr&#x2F;lib&#x2F;systemd&#x2F;system&#x2F;docker.service</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11-Docker-container-log"><span class="toc-number">11.</span> <span class="toc-text">11. Docker container log</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#12-listener-on-a-port"><span class="toc-number">12.</span> <span class="toc-text">12. listener on a port</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#13-mysql-client-connect-to-remote-mysql-server"><span class="toc-number">13.</span> <span class="toc-text">13. mysql client connect to remote mysql server</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#14-connect-to-remote-Redis-server"><span class="toc-number">14.</span> <span class="toc-text">14. connect to remote Redis server</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#15-install-IKAnalyzer-in-elasticsearch"><span class="toc-number">15.</span> <span class="toc-text">15. install IKAnalyzer in elasticsearch</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#16-mysql-init"><span class="toc-number">16.</span> <span class="toc-text">16. mysql init</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#17-sdk-version-problem"><span class="toc-number">17.</span> <span class="toc-text">17. sdk version problem</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#18-disable-mysqld-auto-start"><span class="toc-number">18.</span> <span class="toc-text">18.  disable mysqld auto start</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#19-docker-maven-plugin"><span class="toc-number">19.</span> <span class="toc-text">19. docker-maven-plugin</span></a></li></ol>
                     </div>
                 </span>
             </div>

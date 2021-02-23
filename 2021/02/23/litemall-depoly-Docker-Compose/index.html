@@ -6,15 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives | Rapheal&#39;s Tech Blog</title>
+  <title>litemall depoly (Docker Compose) | Rapheal&#39;s Tech Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Raphael&#39;s Tech Blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Rapheal&#39;s Tech Blog">
-<meta property="og:url" content="http://example.com/archives/index.html">
+  <meta name="description" content="MySQL Start MySQL in Docker (litemall-db.yml):  $ docker-compose -f litemall-db.yml up -d   $ cat litemall-db.yml  version: &#39;3&#39;  services:    mysql57:      image: mysql:5.7      restart: alway">
+<meta property="og:type" content="article">
+<meta property="og:title" content="litemall depoly (Docker Compose)">
+<meta property="og:url" content="http://example.com/2021/02/23/litemall-depoly-Docker-Compose/index.html">
 <meta property="og:site_name" content="Rapheal&#39;s Tech Blog">
-<meta property="og:description" content="Raphael&#39;s Tech Blog">
+<meta property="og:description" content="MySQL Start MySQL in Docker (litemall-db.yml):  $ docker-compose -f litemall-db.yml up -d   $ cat litemall-db.yml  version: &#39;3&#39;  services:    mysql57:      image: mysql:5.7      restart: alway">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-02-23T08:32:20.000Z">
+<meta property="article:modified_time" content="2021-02-23T22:24:44.335Z">
 <meta property="article:author" content="Raphael">
 <meta name="twitter:card" content="summary">
   
@@ -140,303 +142,240 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-litemall-depoly-Docker-Compose" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      litemall depoly (Docker Compose)
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/23/litemall-depoly-Docker-Compose/" class="archive-article-date">
+
+        
+        <a href="/2021/02/23/litemall-depoly-Docker-Compose/" class="archive-article-date">
   	<time datetime="2021-02-23T08:32:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-23</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/23/litemall-depoly-Docker-Compose/">litemall depoly (Docker Compose)</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h2><ol>
+<li><p>Start MySQL in Docker (litemall-db.yml):</p>
+<pre><code> $ docker-compose -f litemall-db.yml up -d
+</code></pre>
+<p> $ cat litemall-db.yml</p>
+<pre><code> version: &#39;3&#39;
+ services:
+   mysql57:
+     image: mysql:5.7
+     restart: always
+     container_name: litemall-mysql
+     ports:
+       - &quot;3306:3306&quot;
+     command:
+       --character-set-server=utf8
+       --collation-server=utf8_general_ci
+       --default-authentication-plugin=mysql_native_password
+     volumes:
+       - /home/raf/DockerStorage/litemall/db/conf.d:/etc/mysql/conf.d
+             - /home/raf/DockerStorage/litemall/db/data:/var/lib/mysql
+             - /home/raf/DockerStorage/litemall/db/init-sql:/docker-entrypoint-initdb.d
+             environment:
+                   MYSQL_ROOT_PASSWORD: litemall123456
+</code></pre>
+</li>
+<li><p>init database :</p>
+<pre><code> $ docker ps 
+ $ docker cp litemall/litemall-db/sql/litemall_schema.sql litemall-mysql:/
+ $ docker cp litemall/litemall-db/sql/litemall_table.sql litemall-mysql:/
+ $ docker cp litemall/litemall-db/sql/litemall_data.sql litemall-mysql:/
+ $ docker exec -it litemall-mysql /bin/bash
+ # mysql -uroot -plitemall123456 --default-character-set=utf8
+ &gt; source /litemall_schema.sql;
+ &gt; source /litemall_table.sql;
+ &gt; source /litemall_data.sql;
+ &gt; show databases;
+ &gt; use litemall;
+ &gt; show tables;
+ &gt; quit
+ # ctl-p + ctl-q
+</code></pre>
+</li>
+<li><p>test connection : </p>
+<pre><code> $ cat /etc/hosts
+ 127.0.0.1        localhost 
+ 192.168.1.44    db mysql redis mongo 
+ 
+ $ mysql -uroot -plitemall123456 --default-character-set=utf8 -h db
+ mysql&gt; show tables;
+</code></pre>
+</li>
+</ol>
+<h2 id="Start-backend-Service"><a href="#Start-backend-Service" class="headerlink" title="Start backend Service"></a>Start backend Service</h2><pre><code>$ cd litemall
+$ mvn install
+$ mvn clean package
+$ java -Dfile.encoding=UTF-8 -jar litemall-all/target/litemall-all-0.1.0-exec.jar
 
-        <div class="article-info info-on-right">
-          
-          
+ http://localhost:8080/wx/index/index
+ http://localhost:8080/admin/index/index
+</code></pre>
+<h2 id="Start-admin-web-frontend-http-localhost-9527"><a href="#Start-admin-web-frontend-http-localhost-9527" class="headerlink" title="Start admin web frontend (http://localhost:9527/)"></a>Start admin web frontend (<a target="_blank" rel="noopener" href="http://localhost:9527/">http://localhost:9527/</a>)</h2><pre><code>$ sudo npm install -g cnpm --registry=https://registry.npm.taobao.org
+$ cd litemall/litemall-admin
+$ cnpm install
+$ cnpm run dev
+</code></pre>
+<h2 id="Start-user-interface-frontend-http-localhost-6255"><a href="#Start-user-interface-frontend-http-localhost-6255" class="headerlink" title="Start user interface frontend (http://localhost:6255/)"></a>Start user interface frontend (<a target="_blank" rel="noopener" href="http://localhost:6255/">http://localhost:6255/</a>)</h2><pre><code>$ sudo npm install -g cnpm --registry=https://registry.npm.taobao.org
+$ cd litemall/litemall-vue
+$ cnpm install
+$ cnpm run dev
+</code></pre>
+<h2 id="Test-API"><a href="#Test-API" class="headerlink" title="Test API"></a><a target="_blank" rel="noopener" href="https://linlinjava.gitbook.io/litemall/api#18-api-ce-shi">Test API</a></h2><pre><code>POST http://localhost:8080/wx/auth/login/
+&#123;
+    &quot;username&quot;:&quot;user123&quot;,
+    &quot;password&quot;:&quot;user123&quot;
+&#125;
+</code></pre>
+<p>recieve token, add in head, then: </p>
+<pre><code>GET http://localhost:8080/wx/address/list/
+</code></pre>
+<h2 id="Database-Entity-Relationship-Diagram-auto-generated-by-Intellij-Idea"><a href="#Database-Entity-Relationship-Diagram-auto-generated-by-Intellij-Idea" class="headerlink" title="Database Entity Relationship Diagram auto generated by Intellij Idea"></a><a target="_blank" rel="noopener" href="https://www.jetbrains.com/help/idea/foreign-keys.html#debug-rules-for-virtual-foreign-keys">Database Entity Relationship Diagram auto generated by Intellij Idea</a></h2><pre><code>File -&gt; Setting -&gt; Editor General -&gt; Code Completion -&gt; sql -&gt; Suggest non-strict foreign keys based on the name matching
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>colume pattern</th>
+<th align="center">target colume pattern</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>(.*)_id</td>
+<td align="center">litemall_$1\.id</td>
+</tr>
+</tbody></table>
 
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2021/02/23/litemall-depoly-Docker-Compose/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/13/dual-boot-Ubuntu-20-04-Windows-10/" class="archive-article-date">
-  	<time datetime="2021-02-13T06:12:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-13</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/02/13/dual-boot-Ubuntu-20-04-Windows-10/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">dual boot - Ubuntu 20.04 &amp; Windows 10</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/13/dual-boot-Ubuntu-20-04-Windows-10/">dual boot - Ubuntu 20.04 &amp; Windows 10</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL"><span class="toc-number">1.</span> <span class="toc-text">MySQL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Start-backend-Service"><span class="toc-number">2.</span> <span class="toc-text">Start backend Service</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Start-admin-web-frontend-http-localhost-9527"><span class="toc-number">3.</span> <span class="toc-text">Start admin web frontend (http:&#x2F;&#x2F;localhost:9527&#x2F;)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Start-user-interface-frontend-http-localhost-6255"><span class="toc-number">4.</span> <span class="toc-text">Start user interface frontend (http:&#x2F;&#x2F;localhost:6255&#x2F;)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Test-API"><span class="toc-number">5.</span> <span class="toc-text">Test API</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Database-Entity-Relationship-Diagram-auto-generated-by-Intellij-Idea"><span class="toc-number">6.</span> <span class="toc-text">Database Entity Relationship Diagram auto generated by Intellij Idea</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/09/AWS/" class="archive-article-date">
-  	<time datetime="2021-02-09T18:26:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-09</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/09/AWS/">AWS</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/07/Jenkins/" class="archive-article-date">
-  	<time datetime="2021-02-07T20:49:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/07/Jenkins/">Jenkins &amp; CI/CD</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/06/Maven-Docker/" class="archive-article-date">
-  	<time datetime="2021-02-06T09:56:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/06/Maven-Docker/">docker-maven-plugin</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/05/Docker-Spring-Boot-build-with-Dockerfile/" class="archive-article-date">
-  	<time datetime="2021-02-05T15:06:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/05/Docker-Spring-Boot-build-with-Dockerfile/">Docker Spring Boot build with Dockerfile</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/05/Nacos/" class="archive-article-date">
-  	<time datetime="2021-02-05T09:54:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/05/Nacos/">Nacos</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/04/Docker-Stack-Deploy/" class="archive-article-date">
-  	<time datetime="2021-02-04T08:16:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/04/Docker-Stack-Deploy/">Common Traps</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/02/03/Docker/" class="archive-article-date">
-  	<time datetime="2021-02-03T20:08:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/02/03/Docker/">Install Docker &amp; Docker Commands</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/01/26/Deploy-Hexo-To-Github/" class="archive-article-date">
-  	<time datetime="2021-01-26T17:32:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/01/26/Deploy-Hexo-To-Github/">Deploy Hexo To Github</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Github, Hexo</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -459,8 +398,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
